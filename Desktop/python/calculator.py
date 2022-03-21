@@ -3,11 +3,6 @@ print("2.Subtract")
 print("3.Multiply")
 print("4.divide")
 print("Enter 0 to end")
-z = input(print("do u want to do a operation (y/n :)"))
-v = input()
-u = ord(v)
-while (u == ord(89))
-{
 y = input(print("select a number from above operations :"))
 x = int(y)
 if(1 <= x <= 2):
