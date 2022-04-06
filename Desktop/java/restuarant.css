@@ -1,0 +1,140 @@
+body {
+  font-family: monospace;
+}
+
+ul {
+  font-family: helvetica;
+}
+li {
+  list-style: circle;
+}
+
+.list {
+  list-style: square;
+}
+#item1 {
+  font-size: 15px;
+  height: 15px;
+  width: 30px;
+}
+#item2 {
+  font-size: 15px;
+  height: 15px;
+  width: 30px;
+}
+#item3 {
+  font-size: 15px;
+  height: 15px;
+  width: 30px;
+}
+#item4 {
+  font-size: 15px;
+  height: 15px;
+  width: 30px;
+}
+#item5 {
+  font-size: 15px;
+  height: 15px;
+  width: 30px;
+}
+.image {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+.button {
+  display: inline-block;
+  font-size: 15px;
+  padding: 15px 10px;
+  left: 250px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #002fff;
+  border: none;
+  border-radius: 25%;
+  box-shadow: 0 9px #999;
+}
+.img {
+  display: inline-block;
+  position: absolute;
+  left: 300px;
+  height: 100px;
+  width: 100px;
+  padding: 25px 15px;
+  border-radius: 50%;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: cover;
+}
+.button:hover {
+  background-color: #008cff;
+}
+
+.button:active {
+  background-color: #0099ff;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.switch {
+  position: absolute;
+  font-size: medium;
+  font-family: verdana;
+  font-style: italic;
+  top: 290px;
+  right: 55px;
+  height: 100px;
+  width: 50px;
+}
+
+:root {
+  --green: #00f8ec;
+  --white: #ffffff;
+  --black: #000000;
+}
+* {
+  color: var(--fontColor);
+  font-family: italic;
+}
+body {
+  background: var(--bg);
+}
+
+.light-theme {
+  --bg: var(--green);
+  --fontColor: var(--black);
+  --btnBg: var(--black);
+  --btnFontColor: var(--white);
+}
+.dark-theme {
+  --bg: var(--black);
+  --fontColor: var(--green);
+  --btnBg: var(--white);
+  --btnFontColor: var(--black);
+}
+.btn {
+  color: var(--btnFontColor);
+  background-color: var(--btnBg);
+}
+.btn {
+  position: absolute;
+  top: 210px;
+  right: 30px;
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  border: none;
+  color: var(--btnFontColor);
+  background-color: var(--btnBg);
+  font-size: 25px;
+}
+.btn:focus {
+  outline-style: none;
+}
