@@ -17,7 +17,10 @@ def binarysearch(list1, key):
         print("key is not found")
 
 list1 =[]
-n=int(input("Enter number of elements :"))
+n=int(input("Enter number of elements in the List :"))
+if(n==0):
+    print("Enter valid number")
+    exit()
 print("Enter the list of elements:")
 for i in range(0,n):
     m=int(input())
