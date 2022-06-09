@@ -1,0 +1,906 @@
+test> use appdb
+switched to db appdb
+appdb> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+appdb> db
+appdb
+
+
+//inserting element
+appdb> db.users.insertOne({name : "mydh"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("62a0722e6f19942c4e91b658")
+}
+
+
+//finding element
+appdb> db.users.find()
+[ { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' } ]
+
+
+appdb> db.users.insertOne({name: "mydh",age:19,address :{street:"volony"},hobbies:["playing"]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("62a072e06f19942c4e91b659")
+}
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+
+
+//inserting many elements at a time
+appdb> db.users.insertMany([{name:"mydh"},{name:"swa"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("62a0733e6f19942c4e91b65a"),
+    '1': ObjectId("62a0733e6f19942c4e91b65b")
+  }
+}
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' }
+]
+appdb> db.users.insertMany([{name:"mydh",age:19},{name:"swathi",age:18}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("62a073e26f19942c4e91b65c"),
+    '1': ObjectId("62a073e26f19942c4e91b65d")
+  }
+}
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//finding elements with limit(size)
+appdb> db.users.find().limit(2)
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+
+//sorting
+appdb> db.users.find().sort({name:1}).limit(2)
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+appdb> db.users.find().sort({name:-1}).limit(2)
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' }
+]
+appdb> db.users.find().sort({name:-1}).limit(2)
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' }
+]
+appdb> db.users.find().sort({age:1,name:-1}).limit(2)
+[
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' }
+]
+appdb> db.users.find().sort({age:-1,name:-1}).limit(2)
+[
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+appdb> db.users.find().limit(2)
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+
+//skipping particular element
+appdb> db.users.find().skip(1).limit(2)
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' }
+]
+appdb> db.users.find({name:"mydh"})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({age:19})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+
+
+//finding element which do not exists(we didn't get any error and ans output is blank)
+appdb> db.users.find({age:56})
+
+appdb> db.users.find({age:"19"})
+
+appdb> db.users.find({name:"mydh"}),({name:1,age:1})
+{ name: 1, age: 1 }
+appdb> db.users.find({name:"mydh"}),{name:1,age:1})
+Uncaught:
+SyntaxError: Missing semicolon. (1:43)
+
+> 1 | db.users.find({name:"mydh"}),{name:1,age:1})
+    |                                            ^
+  2 |
+
+appdb> db.users.find({name:"mydh"}),{name:1,age:1}
+{ name: 1, age: 1 }
+appdb> db.users.find({name:"mydh"},{name:1,age:1})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a072e06f19942c4e91b659"), name: 'mydh', age: 19 },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({name:"mydh"},{name:1,age:1}).limit(1)
+[ { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' } ]
+appdb> db.users.find({name:"mydh"},{name:1,age:1}).limit(2)
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a072e06f19942c4e91b659"), name: 'mydh', age: 19 }
+]
+
+
+
+//finding by using id
+appdb> db.users.find({name:"mydh"},{name:1,age:1,_id:0})
+[
+  { name: 'mydh' },
+  { name: 'mydh', age: 19 },
+  { name: 'mydh' },
+  { name: 'mydh', age: 19 }
+]
+
+
+//finding equal to name "swa" using keyword (eq)
+appdb> db.users.find({name:{$eq:"swa"}})
+[ { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' } ]
+appdb> db.users.find({name:{$eq:"mydh"}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({name:{$neq:"mydh"}})
+MongoServerError: unknown operator: $neq
+
+
+
+//finding notequal to name "mydh" using keyword (ne)
+appdb> db.users.find({name:{$ne:"mydh"}})
+[
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//using gt-greater than
+appdb> db.users.find({age:{$gt:18}})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+
+
+//using gte - greater than or equal to
+appdb> db.users.find({age:{$gte:18}})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//using lte - less than or equal to
+appdb> db.users.find({age:{$lte:18}})
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+//using lt-less than(there is no insertions less than 18 so output doesn't exists)
+appdb> db.users.find({age:{$lt:18}})
+
+appdb> db.users.find({name:{$in:["mydh"]}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({name:{$in:["mydh","swa"]}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({name:{$nin:["mydh","swa"]}})
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//we got output where the inssertions which are have age 
+appdb> db.users.find({age:{$exists:true}})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+
+//we got output where the inssertions which are doesn't have age
+appdb> db.users.find({age:{$exists:false}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' }
+]
+appdb> db.users,insertOne({age:null , name:"mydh"})
+ReferenceError: insertOne is not defined
+
+
+//inserting new one
+appdb> db.users.insertOne({age:null , name:"ani"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("62a080cc6f19942c4e91b65e")
+}
+appdb> db.users.find({age:{$exists:true}})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  },
+  { _id: ObjectId("62a080cc6f19942c4e91b65e"), age: null, name: 'ani' }
+]
+
+
+//finding insertions which are greater than or equal to 10 and less than or equal to 18
+appdb> db.users.find({age:{$gte:10,$lte:18}})
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//there are no insertions with this conditions that's why we didn't get any output
+appdb> db.users.find({age:{$gte:10,$lte:18},name:"ani"})
+
+appdb> db.users.find({age:{$gte:10,$lte:18},name:"mydh"})
+
+
+
+//this condition exists
+appdb> db.users.find({age:{$gte:10,$lte:19},name:"mydh"})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+appdb> db.users.find({age:{$gte:10,$lte:19},name:"ani"})
+
+
+
+//using keyword and
+appdb> db.users.find({$and:[{age:18},{name:"ani"}]})
+
+appdb> db.users.find({$and:[{age:18},{name:"mydh"}]})
+
+appdb> db.users.find({$and:[{age:18},{name:"swa"}]})
+
+appdb> db.users.find({$and:[{age:18},{name:"swathi"}]})
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+
+
+//using keyword or
+appdb> db.users.find({$or:[{age:{$lte:18}},{name:"swathi"}]})
+[
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  }
+]
+appdb> db.users.find({age:{$not:{$lte:19}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:35)
+
+> 1 | db.users.find({age:{$not:{$lte:19}})
+    |                                    ^
+  2 |
+
+
+//using keyword not
+appdb> db.users.find({age:{$not:{$lte:19}}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a080cc6f19942c4e91b65e"), age: null, name: 'ani' }
+]
+appdb> db.users.find({age:{$gte:19}}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:29)
+
+> 1 | db.users.find({age:{$gte:19}}})
+    |                              ^
+  2 |
+
+appdb> db.users.find({age:{$gte:19}})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+
+
+//inserting many arguments at a time
+appdb> db.users.insertMany([{name:"teju",balance:100,debt:1200},{name:"varshi",balance:120,debt:9000}}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:94)
+
+> 1 | db.users.insertMany([{name:"teju",balance:100,debt:1200},{name:"varshi",balance:120,debt:9000}}])
+    |                                                                                               ^
+  2 |
+
+appdb> db.users.insertMany([{name:"teju",balance:100,debt:1200},{name:"varshi",balance:120,debt:9000}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("62a085426f19942c4e91b65f"),
+    '1': ObjectId("62a085426f19942c4e91b660")
+  }
+}
+
+
+//using keyword expr-expression
+appdb> db.users.find({$expr:{$gte:["debt","balance"]}})
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    name: 'swathi',
+    age: 18
+  },
+  { _id: ObjectId("62a080cc6f19942c4e91b65e"), age: null, name: 'ani' },
+  {
+    _id: ObjectId("62a085426f19942c4e91b65f"),
+    name: 'teju',
+    balance: 100,
+    debt: 1200
+  },
+  {
+    _id: ObjectId("62a085426f19942c4e91b660"),
+    name: 'varshi',
+    balance: 120,
+    debt: 9000
+  }
+]
+appdb> db.users.find({"address.street":"colony"})
+
+
+//finding insertion by using word address which is inserted
+appdb> db.users.find({"address.street":"volony"})
+[
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    address: { street: 'volony' },
+    hobbies: [ 'playing' ]
+  }
+]
+
+
+
+//using findOne keyword finding graeter than age 18 insertions
+appdb> db.users.findOne({age:{$gt:18}})
+{
+  _id: ObjectId("62a072e06f19942c4e91b659"),
+  name: 'mydh',
+  age: 19,
+  address: { street: 'volony' },
+  hobbies: [ 'playing' ]
+}
+appdb> db.users.findOne({age:{$1te:10}})
+MongoServerError: unknown operator: $1te
+appdb> db.users.findOne({age:{$lte:10}})
+null
+
+//counting according to the condition
+appdb> db.users.countDocuments({age:{$lte:10}})
+0
+appdb> db.users.countDocuments({age:{$gte:10}})
+3
+
+
+//updating the existed insertion using keyword (set)
+appdb> db.users.updateOne({age:28,name:"srivalli"})
+MongoInvalidArgumentError: Update document requires atomic operators
+appdb> db.users.updateOne({age:28,{$set:{name:"srivalli"}}})
+Uncaught:
+SyntaxError: Unexpected token (1:27)
+
+> 1 | db.users.updateOne({age:28,{$set:{name:"srivalli"}}})
+    |                            ^
+  2 |
+
+appdb> db.users.updateOne({age:18,{$set:{age:78}}})
+Uncaught:
+SyntaxError: Unexpected token (1:27)
+
+> 1 | db.users.updateOne({age:18,{$set:{age:78}}})
+    |                            ^
+  2 |
+
+appdb> db.users.updateOne({age:18},{$set:{age:78}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.updateOne({age:78})
+MongoInvalidArgumentError: Update document requires atomic operators
+appdb> db.users.findOne({age:78})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), name: 'swathi', age: 78 }
+
+
+
+//updating using id
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$set:{name:"harika"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({age:78})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), name: 'harika', age: 78 }
+
+
+//finding using id
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), name: 'harika', age: 78 }
+
+
+//increasing age using keyword (inc)
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$int:{age:23}})
+MongoServerError: Unknown modifier: $int. Expected a valid update modifier or pipeline-style update specified as an array
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$inc:{age:23}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), name: 'harika', age: 101 }
+
+
+//using keyword (rename) to rename
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$rename:{name:"usha"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), age: 101, usha: 'harika' }
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$rename:{name:"Firstname"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), age: 101, usha: 'harika' }
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$unset:{age:""}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{ _id: ObjectId("62a073e26f19942c4e91b65d"), usha: 'harika' }
+
+
+using keyword (push) to push some of the data
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$push:{hobbies:"swimming"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+
+
+
+
+
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{
+  _id: ObjectId("62a073e26f19942c4e91b65d"),
+  usha: 'harika',
+  hobbies: [ 'swimming' ]
+}
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$push:{hobbies:"swimming","dancing"}})
+Uncaught:
+SyntaxError: Unexpected token (1:99)
+
+> 1 | db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$push:{hobbies:"swimming","dancing"}})
+    |                                                                                                    ^
+  2 |
+
+                                                                                               
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$push:{hobbies:"dancing"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.findOne({_id: ObjectId("62a073e26f19942c4e91b65d")})
+{
+  _id: ObjectId("62a073e26f19942c4e91b65d"),
+  usha: 'harika',
+  hobbies: [ 'swimming', 'dancing' ]
+}
+
+
+//using keyword (pull) to eliminate some of tha data in the inserted data
+appdb> db.users.updateOne({_id: ObjectId("62a073e26f19942c4e91b65d")},{$pull:{hobbies:"swimming"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+//updating many
+appdb> db.users.updateMany({address:{$exists:true}},{$unset:{address:""}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+
+
+
+
+//using find() to see all of the insertions
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  {
+    _id: ObjectId("62a072e06f19942c4e91b659"),
+    name: 'mydh',
+    age: 19,
+    hobbies: [ 'playing' ]
+  },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    usha: 'harika',
+    hobbies: [ 'dancing' ]
+  },
+  { _id: ObjectId("62a080cc6f19942c4e91b65e"), age: null, name: 'ani' },
+  {
+    _id: ObjectId("62a085426f19942c4e91b65f"),
+    name: 'teju',
+    balance: 100,
+    debt: 1200
+  },
+  {
+    _id: ObjectId("62a085426f19942c4e91b660"),
+    name: 'varshi',
+    balance: 120,
+    debt: 9000
+  }
+]
+
+
+
+
+
+
+
+//replacing items from the existing ones
+appdb> db.users.replaceOne({age:30},{name:"raghu"})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+appdb> db.users.find({name:"raghu"})
+
+
+appdb> db.users.replaceOne({age:19},{name:"raghu"})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+appdb> db.users.find({name:"raghu"})
+[ { _id: ObjectId("62a072e06f19942c4e91b659"), name: 'raghu' } ]
+
+
+//deleting items using keyword (deleteone)
+appdb> db.users.deleteOne({name:"raghu"})
+{ acknowledged: true, deletedCount: 1 }
+appdb> db.users.find({name:"raghu"})
+
+appdb> db.users.find({age:19})
+[
+  { _id: ObjectId("62a073e26f19942c4e91b65c"), name: 'mydh', age: 19 }
+]
+
+
+
+
+//deleting many items at a time
+appdb> db.users.deleteMany({age:{$lte:19}})
+{ acknowledged: true, deletedCount: 1 }
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    usha: 'harika',
+    hobbies: [ 'dancing' ]
+  },
+  { _id: ObjectId("62a080cc6f19942c4e91b65e"), age: null, name: 'ani' },
+  {
+    _id: ObjectId("62a085426f19942c4e91b65f"),
+    name: 'teju',
+    balance: 100,
+    debt: 1200
+  },
+  {
+    _id: ObjectId("62a085426f19942c4e91b660"),
+    name: 'varshi',
+    balance: 120,
+    debt: 9000
+  }
+]
+appdb> db.users.deleteMany({age:{$exists:true}})
+{ acknowledged: true, deletedCount: 1 }
+appdb> db.users.find()
+[
+  { _id: ObjectId("62a0722e6f19942c4e91b658"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65a"), name: 'mydh' },
+  { _id: ObjectId("62a0733e6f19942c4e91b65b"), name: 'swa' },
+  {
+    _id: ObjectId("62a073e26f19942c4e91b65d"),
+    usha: 'harika',
+    hobbies: [ 'dancing' ]
+  },
+  {
+    _id: ObjectId("62a085426f19942c4e91b65f"),
+    name: 'teju',
+    balance: 100,
+    debt: 1200
+  },
+  {
+    _id: ObjectId("62a085426f19942c4e91b660"),
+    name: 'varshi',
+    balance: 120,
+    debt: 9000
+  }
+]
