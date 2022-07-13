@@ -153,10 +153,9 @@
 ### User Routes
 
 1. #### /signuppage
-   Request body -
 
 ```
-
+   Request body -
 {
 username:string
 dateofbirth:int
@@ -171,10 +170,7 @@ profile: jpg or png
 ```
 
 ```
-
 Response body ( 200 ) -
-
-
 {
 signuppage: {
 username:string
@@ -200,10 +196,8 @@ type:string // please signup first
 
 2. #### POST /user/login
 
-Request body -
-
 ```
-
+Request body -
 {
 email: string, ( Required )
 password: string, ( Required, Must be atleast 8 characters )
@@ -214,7 +208,6 @@ password: string, ( Required, Must be atleast 8 characters )
 Response body ( 200 ) -
 
 ```
-
 {
 userDetails: {
 email: string,
@@ -228,7 +221,6 @@ mobile: string,
 Response body ( 400 ) -
 
 ```
-
 {
 error: {
 password: string, // Example - password: "must be atleast 8 characters"
@@ -238,10 +230,9 @@ password: string, // Example - password: "must be atleast 8 characters"
 ```
 
 3. #### /putpost
-   Request body -
 
 ```
-
+   Request body -
 {
 photo: jpg or png, ( Required )
 description:string,(Required),
@@ -253,8 +244,6 @@ comment:string
 ```
 
 Response body ( 200 ) -
-
-
 {
 putposts: {
 photo : jpg or png,
@@ -273,11 +262,76 @@ type:string // no posts available
 
 ```
 
-4. #### /profilepage
+4. #### /putpost/comment
+
+```
    Request body -
+{
+comment: string
+}
 
 ```
 
+```
+
+Response body ( 200 ) -
+{
+comment: {
+email: string,
+name: string,
+mobile: string,
+uid: ,
+comment:string
+}
+}
+```
+
+```
+{
+error: {
+type:string //comment it correctly
+}
+}
+
+```
+
+4. #### /putpost/like
+
+```
+   Request body -
+{
+like:emoji
+}
+
+```
+
+```
+
+Response body ( 200 ) -
+{
+like: {
+email: string,
+name: string,
+mobile: string,
+uid: ,
+like:emoji
+}
+}
+```
+
+```
+{
+error: {
+type:
+}
+}
+
+```
+
+6. #### /profilepage
+
+```
+   Request body -
 {
 profile: jpg or png, ( Required )
 dateofbirth:int
@@ -291,10 +345,7 @@ password:
 ```
 
 ```
-
 Response body ( 200 ) -
-
-
 {
 profilepage: {
 profile: jpg or png, ( Required )
