@@ -58,7 +58,7 @@
   - It can be used as both frontend and backend.By using nodejs we can connect the database to the app.We are able to see the home page(where the posts),profile page(details about the user),able to delete the posts,able to add new posts etc.We connect css page to change the colourful view of the app.We use routes to go other pages and also used automatic redirecting/rendering to homepage.To use nodejs we need to have inbuilt-packages and modules.
 - ReactJs
   - Reactjs used for building user interfaces based on UI components.It used for frontend purpose.Its aim is to allow developers to easily create fast user interfaces for websites and applications alike.By using react we can go to the which page we want by using routes and id which is we provided.In those pages we are able to add the information,adding pictures etc.we are able to see our provided info here.And we can delete the info which is we provided.By using react we can add css designs,we are able to style and layout web pages.To use Reactjs we need to have inbuilt-packages and modules.
-- MongoDb
+- MongoDB
   - It is used for database purpose.It created schemas which is the information provided in the app.
 
 <br>
@@ -84,7 +84,7 @@
   - Defines the basic structure of the database i.e how the data will be stored in the database.
   - A database schema contains schema objects that may include tables, fields, packages, views, relationships, primary key, foreign key
 
-### Users Schema
+### 1.Users Schema
 
 ```
 {
@@ -100,44 +100,225 @@
 }
 ```
 
-### Login Schema
+### 2.Login Schema
 
 ```
 {
     email/username: string,
     password: ,
+    uid:
 
 }
 ```
 
-### Post Schema
+### 3.GET Post Schema
 
 ```
 {
   postid:{
+    username:characters,
     type:mongoose,schema,types,objectid,
     required:true,
-    photo:[png,jpg]
-  },
-  comment:{
-    type:string
-  },
-  description:{
-    type:string,
-    required:true
+    photo:[png,jpg],
+    uid:
   },
 }
 
 
 ```
 
-### Friendpage Schema
+### 4.PUT Post Schema
 
 ```
 {
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    photo:[png,jpg],
+    update:true
+  },
+}
+
+
+```
+
+### 5.DELETE Post Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    photo:[png,jpg],
+    deletepost:true,
+  }
+}
+
+
+```
+
+### 6.Userpost Comment Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    photo:[png,jpg],
+  comment:string,
+  }
+}
+
+
+```
+
+### 7.DELETE Post Comment Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    photo:[png,jpg],
+  comment:string
+  deletecomment:true,
+  }
+}
+
+
+```
+
+### 8.Userpost Like Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    photo:[png,jpg],
+    like:emoji
+  }
+}
+
+
+```
+
+### 9.Friend's page Schema
+
+```
+{   username:characters,
     objectid:   ,
     friendname: string,
     friendpage: objectid,
+
+}
+```
+
+### 10.Friend's page Post Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    friendname: string,
+    friendpage: objectid,
+    getpost:true
+  }
+}
+
+
+```
+
+### 11.Friend's page Post Comment Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    friendname: string,
+    friendpage: objectid,
+    getpost:true,
+    comment:true
+  }
+}
+
+
+```
+
+### 12.Friend's Post Comment Delete schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    friendname: string,
+    friendpage: objectid,
+    getpost:true,
+    comment:string,
+    deletecomment:true
+  }
+}
+
+
+```
+
+### 13.Friend's page Post Like Schema
+
+```
+{
+  postid:{
+    username:characters,
+    type:mongoose,schema,types,objectid,
+    required:true,
+    friendname: string,
+    friendpage: objectid,
+    getpost:true,
+    like:true
+  }
+}
+
+
+```
+
+### 14.User Profile Schema
+
+```
+{
+  profile:{
+    email: string,
+    name: string,
+    password: string,
+    mobile: string,
+    Uid:int,
+    Gender:string,
+    photo: jpg or png,
+    username:characters,
+
+}
+```
+
+### 15.User Logout Schema
+
+```
+{
+  logout:{
+    email:characters,
+    password:characters ,
+    username:characters,
+    uid:characters,
+    logout:true
+    }
 
 }
 ```
@@ -152,10 +333,11 @@
 
 ### User Routes
 
-1. #### /signuppage
+1. #### GET user/signup
+
+Request body -
 
 ```
-   Request body -
 {
 username:string
 dateofbirth:int
@@ -164,13 +346,13 @@ mobilenumber:int
 email:string
 password:
 profile: jpg or png
-
 }
-
 ```
 
-```
 Response body ( 200 ) -
+
+```
+
 {
 signuppage: {
 username:string
@@ -181,11 +363,13 @@ mobilenumber:int
 email:string
 password:
 uid:int
-  }
 }
+}
+
 ```
 
 ```
+
 {
 error: {
 type:string // please signup first
@@ -196,8 +380,10 @@ type:string // please signup first
 
 2. #### POST /user/login
 
-```
 Request body -
+
+```
+
 {
 email: string, ( Required )
 password: string, ( Required, Must be atleast 8 characters )
@@ -208,19 +394,20 @@ password: string, ( Required, Must be atleast 8 characters )
 Response body ( 200 ) -
 
 ```
+
 {
 userDetails: {
 email: string,
 name: string,
 mobile: string,
+uid:
 }
 }
 
 ```
 
-Response body ( 400 ) -
-
 ```
+
 {
 error: {
 password: string, // Example - password: "must be atleast 8 characters"
@@ -229,31 +416,40 @@ password: string, // Example - password: "must be atleast 8 characters"
 
 ```
 
-3. #### /putpost
+3. #### GET /post
+
+Request body -
 
 ```
-   Request body -
+
 {
 photo: jpg or png, ( Required )
 description:string,(Required),
-comment:string
 }
-
-```
 
 ```
 
 Response body ( 200 ) -
+
+```
+
 {
-putposts: {
+newpost: {
+username:characters,
+password:characters,
+email:characters,
 photo : jpg or png,
 description: string,
 comment: string,
+uid:
+
 }
 }
+
 ```
 
 ```
+
 {
 error: {
 type:string // no posts available
@@ -262,31 +458,119 @@ type:string // no posts available
 
 ```
 
-4. #### /putpost/comment
+4. #### PUT /post
+
+Request body -
 
 ```
-   Request body -
+
+{
+photo: jpg or png, ( Required )
+description:string,(Required),
+comment:string
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+putposts: {
+username:characters,
+photo : jpg or png,
+description: string,
+comment: string,
+uid:
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string // no posts available
+}
+}
+
+```
+
+5. #### DELETE /post
+
+Request body -
+
+```
+
+{
+photo: jpg or png, ( Required )
+description:string,(Required),
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+deletepost: {
+username:characters,
+password:characters,
+email:characters,
+photo : jpg or png,
+description: string,
+comment: string,
+uid:
+
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string // no posts available
+}
+}
+
+```
+
+6. #### PUT /post/comment
+
+Request body -
+
+```
+
 {
 comment: string
 }
 
 ```
 
+Response body ( 200 ) -
+
 ```
 
-Response body ( 200 ) -
 {
 comment: {
 email: string,
 name: string,
 mobile: string,
 uid: ,
+photo:jpg or png,
 comment:string
 }
 }
+
 ```
 
 ```
+
 {
 error: {
 type:string //comment it correctly
@@ -295,31 +579,76 @@ type:string //comment it correctly
 
 ```
 
-4. #### /putpost/like
+7. #### DELETE /post/comment
+
+Request body -
 
 ```
-   Request body -
+
 {
-like:emoji
+comment: string
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+deletecomment: {
+email: string,
+name: string,
+mobile: string,
+uid: ,
+photo:jpg or png,
+comment:string
+}
 }
 
 ```
 
 ```
 
+{
+error: {
+type:string //No comments which you posted
+}
+}
+
+```
+
+8. #### PUT /post/like
+
+Request body -
+
+```
+
+{
+like:emoji
+}
+
+```
+
 Response body ( 200 ) -
+
+```
+
 {
 like: {
 email: string,
 name: string,
 mobile: string,
 uid: ,
+photo:jpg or png,
 like:emoji
 }
 }
+
 ```
 
 ```
+
 {
 error: {
 type:
@@ -328,10 +657,205 @@ type:
 
 ```
 
-6. #### /profilepage
+9. #### GET /friendid
+
+Request body -
 
 ```
-   Request body -
+
+{
+username:characters,
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+friendid: {
+username:characters,
+uid:
+
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string // no page available
+}
+}
+
+```
+
+10. #### GET /friendid/post
+
+Request body -
+
+```
+
+{
+username:characters,
+photo: jpg or png, ( Required )
+description:string,(Required),
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+friendpost: {
+username:characters,
+photo : jpg or png,
+description: string,
+uid:
+
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string // no posts available
+}
+}
+
+```
+
+11. #### PUT /friendid/post/comment
+
+Request body -
+
+```
+
+{
+username:characters
+photo:jpg or png
+comment: string
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+comment: {
+username: string,
+uid: ,
+photo:jpg or png,
+comment:string
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string //no posts available
+}
+}
+
+```
+
+12. #### DELETE /friendid/post/comment
+
+Request body -
+
+```
+
+{
+photo: jpg or png, ( Required )
+description:string,(Required),
+comment:characters
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+deletepost: {
+username:characters,
+photo : jpg or png,
+description: string,
+comment: string,
+uid:
+
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string // no posts available
+}
+}
+
+```
+
+13. #### PUT /post/friendid/like
+
+Request body -
+
+```
+
+{
+username:characters
+like:emoji
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+like: {
+username:characters,
+uid: ,
+like:emoji
+}
+}
+
+```
+
+```
+
+{
+error: {
+type:string //no posts available
+}
+}
+
+```
+
+14. #### GET /profile
+
+Request body -
+
+```
+
 {
 profile: jpg or png, ( Required )
 dateofbirth:int
@@ -339,30 +863,69 @@ gender:string
 mobilenumber:int
 email:string
 password:
-
 }
-
 ```
 
-```
 Response body ( 200 ) -
+
+```
+
 {
 profilepage: {
 profile: jpg or png, ( Required )
-dateofbirth:int
-gender:string
-mobilenumber:int
-email:string
-password:
+dateofbirth:int,
+gender:string,
+mobilenumber:int,
+email:characters,
+password:characters,
 uid:int
-  }
 }
+}
+
 ```
 
 ```
+
 {
 error: {
 type:string // no details are available
+}
+}
+
+```
+
+15. #### POST /user/logout
+
+Request body -
+
+```
+
+{
+logout:username/email
+}
+
+```
+
+Response body ( 200 ) -
+
+```
+
+{
+userlogout: {
+email: string,
+name: string,
+mobile: string,
+uid: ,
+}
+}
+
+```
+
+```
+
+{
+error: {
+password: string, // Example - password: "must be atleast 8 characters"
 }
 }
 
@@ -419,3 +982,11 @@ type:string // no details are available
 # For Overall flowchart
 
 ![ overall flowchart ](overall%20flowchart.jpg "Title")
+
+```
+
+```
+
+```
+
+```
