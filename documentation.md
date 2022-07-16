@@ -130,19 +130,6 @@
 
 ```
 
-### Login Schema
-
-```
-
-{
-email/username: string,
-password: ,
-uid:
-
-}
-
-```
-
 ### User Post Schema
 
 ```
