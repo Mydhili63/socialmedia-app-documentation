@@ -84,217 +84,27 @@
   - Defines the basic structure of the database i.e how the data will be stored in the database.
   - A database schema contains schema objects that may include tables, fields, packages, views, relationships, primary key, foreign key
 
-### 1.Users Schema
+### Users Schema
 
 ```
 {
+  signup:{
     email: string,
     name: string,
     password: string,
     mobile: string,
     Uid:int,
     Gender:string,
-    pic:  ,
-    username:
+    photo:jpg or png  ,
+    username:characters,
+    },
 
-}
-```
-
-### 2.Login Schema
-
-```
-{
+  login:{
     email/username: string,
-    password: ,
+    password:characters ,
     uid:
 
-}
-```
-
-### 3.GET Post Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-    uid:
-  },
-}
-
-
-```
-
-### 4.PUT Post Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-    update:true
-  },
-}
-
-
-```
-
-### 5.DELETE Post Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-    deletepost:true,
-  }
-}
-
-
-```
-
-### 6.Userpost Comment Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-  comment:string,
-  }
-}
-
-
-```
-
-### 7.DELETE Post Comment Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-  comment:string
-  deletecomment:true,
-  }
-}
-
-
-```
-
-### 8.Userpost Like Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    photo:[png,jpg],
-    like:emoji
-  }
-}
-
-
-```
-
-### 9.Friend's page Schema
-
-```
-{   username:characters,
-    objectid:   ,
-    friendname: string,
-    friendpage: objectid,
-
-}
-```
-
-### 10.Friend's page Post Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    friendname: string,
-    friendpage: objectid,
-    getpost:true
-  }
-}
-
-
-```
-
-### 11.Friend's page Post Comment Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    friendname: string,
-    friendpage: objectid,
-    getpost:true,
-    comment:true
-  }
-}
-
-
-```
-
-### 12.Friend's Post Comment Delete schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    friendname: string,
-    friendpage: objectid,
-    getpost:true,
-    comment:string,
-    deletecomment:true
-  }
-}
-
-
-```
-
-### 13.Friend's page Post Like Schema
-
-```
-{
-  postid:{
-    username:characters,
-    type:mongoose,schema,types,objectid,
-    required:true,
-    friendname: string,
-    friendpage: objectid,
-    getpost:true,
-    like:true
-  }
-}
-
-
-```
-
-### 14.User Profile Schema
-
-```
-{
+    }
   profile:{
     email: string,
     name: string,
@@ -305,13 +115,7 @@
     photo: jpg or png,
     username:characters,
 
-}
-```
-
-### 15.User Logout Schema
-
-```
-{
+    },
   logout:{
     email:characters,
     password:characters ,
@@ -321,6 +125,88 @@
     }
 
 }
+
+}
+
+```
+
+### Login Schema
+
+```
+
+{
+email/username: string,
+password: ,
+uid:
+
+}
+
+```
+
+### User Post Schema
+
+```
+
+{
+postid:{
+username:characters,
+type:mongoose,schema,types,objectid,
+required:true,
+photo:[png,jpg],
+uid:
+},
+comment:{
+type:string
+},
+description:{
+type:string,
+required:true
+},
+deletecomment:{
+deletecomment:true
+}
+like:{
+type:emoji
+}
+
+}
+
+```
+
+### Friend's page Schema
+
+```
+
+{
+page:{
+username:characters,
+objectid: ,
+friendname: string,
+friendpage: objectid,
+},
+postid:{
+username:characters,
+type:mongoose,schema,types,objectid,
+required:true,
+friendname: string,
+friendpage: objectid,
+getpost:true
+},
+comment:{
+type:string
+},
+description:{
+type:string,
+required:true
+},
+deletecomment:{
+deletecomment:true
+}
+like:{
+type:emoji
+}
+}
+
 ```
 
 <br>
@@ -338,6 +224,7 @@
 Request body -
 
 ```
+
 {
 username:string
 dateofbirth:int
@@ -347,6 +234,7 @@ email:string
 password:
 profile: jpg or png
 }
+
 ```
 
 Response body ( 200 ) -
@@ -618,46 +506,7 @@ type:string //No comments which you posted
 
 ```
 
-8. #### PUT /post/like
-
-Request body -
-
-```
-
-{
-like:emoji
-}
-
-```
-
-Response body ( 200 ) -
-
-```
-
-{
-like: {
-email: string,
-name: string,
-mobile: string,
-uid: ,
-photo:jpg or png,
-like:emoji
-}
-}
-
-```
-
-```
-
-{
-error: {
-type:
-}
-}
-
-```
-
-9. #### GET /friendid
+8. #### GET /friendid
 
 Request body -
 
@@ -693,7 +542,7 @@ type:string // no page available
 
 ```
 
-10. #### GET /friendid/post
+9. #### GET /friendid/post
 
 Request body -
 
@@ -733,7 +582,7 @@ type:string // no posts available
 
 ```
 
-11. #### PUT /friendid/post/comment
+10. #### PUT /friendid/post/comment
 
 Request body -
 
@@ -772,7 +621,7 @@ type:string //no posts available
 
 ```
 
-12. #### DELETE /friendid/post/comment
+11. #### DELETE /friendid/post/comment
 
 Request body -
 
@@ -813,44 +662,7 @@ type:string // no posts available
 
 ```
 
-13. #### PUT /post/friendid/like
-
-Request body -
-
-```
-
-{
-username:characters
-like:emoji
-}
-
-```
-
-Response body ( 200 ) -
-
-```
-
-{
-like: {
-username:characters,
-uid: ,
-like:emoji
-}
-}
-
-```
-
-```
-
-{
-error: {
-type:string //no posts available
-}
-}
-
-```
-
-14. #### GET /profile
+12. #### GET /profile
 
 Request body -
 
@@ -864,6 +676,7 @@ mobilenumber:int
 email:string
 password:
 }
+
 ```
 
 Response body ( 200 ) -
@@ -894,7 +707,7 @@ type:string // no details are available
 
 ```
 
-15. #### POST /user/logout
+13. #### POST /user/logout
 
 Request body -
 
@@ -982,11 +795,3 @@ password: string, // Example - password: "must be atleast 8 characters"
 # For Overall flowchart
 
 ![ overall flowchart ](overall%20flowchart.jpg "Title")
-
-```
-
-```
-
-```
-
-```
